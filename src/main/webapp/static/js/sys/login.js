@@ -50,7 +50,6 @@ $(document).ready(function () {
 
             },
             clearPwdMsg: function () {
-                debugger;
                 this.showMsgPwd = '';
             },
             clearAccMsg: function () {
@@ -142,6 +141,9 @@ $(document).ready(function () {
                                 async: false,
                                 contentType: "application/json",
                                 success: function (response) {
+                                    debugger;
+                                    dialog.form = {};
+                                    dialog.show = false;
                                     dialog.$alert(response.msg);
                                 },
                                 error: function (error) {

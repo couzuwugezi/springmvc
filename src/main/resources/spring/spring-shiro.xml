@@ -78,6 +78,7 @@
                 /login = anon
                 /logout = logout
                 /checkInfo = anon
+                /register = anon
                 /static/**/*.js = anon
                 /static/**/*.ttf = anon
                 /static/**/*.woff = anon

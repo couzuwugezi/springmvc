@@ -8,9 +8,15 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import springmvc.liqiang.dao.model.OperaResult;
+import springmvc.liqiang.entity.SysUserInfoPO;
+import springmvc.liqiang.service.sys.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +31,9 @@ import java.io.IOException;
 public class IndexController {
 
     private Logger log = Logger.getLogger(IndexController.class);
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 测试画点功能
@@ -96,7 +105,7 @@ public class IndexController {
             }
             obj.put("code", "1");
             response.getWriter().write(obj.toJSONString());
-            request.getSession().setAttribute("sessionid",request.getSession().getId());
+            request.getSession().setAttribute("sessionid", request.getSession().getId());
         } catch (UnknownAccountException uae) {
             log.error("----> There is no user with username of " + loginname, uae);
             obj.put("msg", uae.getMessage());
@@ -121,8 +130,9 @@ public class IndexController {
 
     }
 
-//    @RequestMapping(value = "/register", method = RequestMethod.GET)
-//    public OperaResult register(@RequestBody  SysUserInfoPO record){
-//        return userService.register(record);
-//    }
+    @ResponseBody
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public OperaResult register(@RequestBody SysUserInfoPO record) {
+        return userService.register(record);
+    }
 }
