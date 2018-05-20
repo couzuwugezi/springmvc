@@ -11,7 +11,6 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import springmvc.liqiang.utils.MD5Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,7 +87,7 @@ public class IndexController {
         String loginname = request.getParameter("loginname");
         JSONObject obj = new JSONObject();
         try {
-            String password = MD5Util.encryptMD5(request.getParameter("password"));
+            String password = request.getParameter("password");
             Subject subject = SecurityUtils.getSubject();
             if (!subject.isAuthenticated()) {
                 UsernamePasswordToken token = new UsernamePasswordToken(loginname, password);
@@ -97,6 +96,7 @@ public class IndexController {
             }
             obj.put("code", "1");
             response.getWriter().write(obj.toJSONString());
+            request.getSession().setAttribute("sessionid",request.getSession().getId());
         } catch (UnknownAccountException uae) {
             log.error("----> There is no user with username of " + loginname, uae);
             obj.put("msg", uae.getMessage());
@@ -104,7 +104,7 @@ public class IndexController {
             response.getWriter().write(obj.toJSONString());
         } catch (IncorrectCredentialsException ice) {
             log.error("----> Password for account " + loginname + " was incorrect!", ice);
-            obj.put("msg", ice.getMessage());
+            obj.put("msg", "密码错误");
             obj.put("code", "-2");
             response.getWriter().write(obj.toJSONString());
         } catch (LockedAccountException lae) {
@@ -120,4 +120,9 @@ public class IndexController {
         }
 
     }
+
+//    @RequestMapping(value = "/register", method = RequestMethod.GET)
+//    public OperaResult register(@RequestBody  SysUserInfoPO record){
+//        return userService.register(record);
+//    }
 }
