@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+        <!-- 延迟加载先从单表查询，需要时再从关联表去关联查询，默认为false -->
+        <setting name="lazyLoadingEnabled" value="false" />
+
+        <setting name="aggressiveLazyLoading" value="true" />
+
+        <setting name="logImpl" value="SLF4J" />
+        <!-- 动态从后台获取数据时，用hashMap去接收时，若value为null，则不显示该字段的key，现在改为true，则显示出所有字段 -->
+        <setting name="callSettersOnNulls" value="true" />
+    </settings>
+    <!-- 设置别名 -->
+    <typeAliases>
+        <package name="springmvc.liqiang.entity" />
+    </typeAliases>
+</configuration>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/static/js/basic/vue.js}"></script>
+    <script th:src="@{/static/js/basic/elementUI.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/static/css/basic/emelemtUI.css}"/>
+    <script th:src="@{/static/js/basic/jQuery.js}"></script>
+    <script th:src="@{/static/js/basic/projectInfo.js}"></script>
+    <script th:src="@{/static/js/sys/login.js}"></script>
+    <style type="text/css">
+        #inLoginDiv {
+            position: absolute;
+            left: 800px;
+            top: 150px;
+        }
+    </style>
+</head>
+<body>
+<div id="loginDiv" style="height: 100%; width: 100%">
+    <div id="inLoginDiv">
+        <el-form :model="form" id="loginForm" status-icon :rules="rules" ref="loginForm" label-width="200px"
+                 class="demo-ruleForm">
+            <el-form-item label="账号" prop="loginname">
+                <el-input type="loginname" v-model="form.loginname" auto-complete="off"></el-input>
+                <span style="margin-top: -10px;color: red;position: fixed;" v-text="showMsgAcc"
+                      v-if="showMsgAcc.length > 0"></span>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+                <el-input type="password" v-model="form.password" auto-complete="off"></el-input>
+                <span style="margin-top: -10px;color: red;position: fixed;" v-text="showMsgPwd"
+                      v-if="showMsgPwd.length > 0"></span>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="submitForm('loginForm')" style="width:100%">登录</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+</div>
+</body>
+</html>
