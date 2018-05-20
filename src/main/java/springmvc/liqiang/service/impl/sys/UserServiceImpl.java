@@ -21,9 +21,10 @@ import java.util.Date;
  * 时间 2018-05-20 17:08
  * 描述
  */
-@Service("UserService")
 @Transactional(rollbackFor = Exception.class)
+@Service("UserService")
 public class UserServiceImpl implements UserService {
+
     private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
             record.setLoginPassword(CommonUtil.toString(password));
             insertRes = sysUserInfoMapper.insert(record);
-
+            int a = 1 / 0;
             if (insertRes == 1) {
                 result.setMsg("操作成功!");
                 result.setCode("1");

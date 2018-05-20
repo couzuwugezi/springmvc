@@ -1,13 +1,14 @@
 package springmvc.liqiang.controller.sys;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,10 +31,11 @@ import java.io.IOException;
 @Controller
 public class IndexController {
 
-    private Logger log = Logger.getLogger(IndexController.class);
+    private Logger log = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
     private UserService userService;
+
 
     /**
      * 测试画点功能
