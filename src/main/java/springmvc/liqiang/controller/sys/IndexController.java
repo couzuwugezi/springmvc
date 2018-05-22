@@ -93,7 +93,7 @@ public class IndexController {
      * 验证登录
      */
     @RequestMapping(value = "/checkInfo", method = RequestMethod.POST)
-    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void login(HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("utf-8");
         String loginname = request.getParameter("loginname");
         JSONObject obj = new JSONObject();
@@ -136,5 +136,13 @@ public class IndexController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public OperaResult register(@RequestBody SysUserInfoPO record) {
         return userService.register(record);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/logout")
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "redirect:/login";
     }
 }
