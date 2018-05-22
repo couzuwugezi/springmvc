@@ -9,11 +9,11 @@
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-
     <!-- 自动扫描且只扫描@Controller -->
-    <context:component-scan base-package="springmvc.liqiang.controller" use-default-filters="false">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-    </context:component-scan>
+    <context:component-scan base-package="springmvc.liqiang"/>
+    <!--<context:component-scan base-package="springmvc.liqiang.controller" use-default-filters="false">-->
+        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />-->
+    <!--</context:component-scan>-->
 
 
     <!-- 注册MVC注解驱动 -->
