@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
 
             record.setLoginPassword(CommonUtil.toString(password));
             insertRes = sysUserInfoMapper.insert(record);
-            int a = 1 / 0;
             if (insertRes == 1) {
                 result.setMsg("操作成功!");
                 result.setCode("1");
