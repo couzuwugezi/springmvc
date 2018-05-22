@@ -23,7 +23,7 @@ $(document).ready(function () {
             }
         },
         mounted: function () {
-            $("#app").css("background-image", "url(static/img/timg.jpeg)");
+            $("#app").css("background-image", "url("+Lee.realPath+"/static/img/timg.jpeg)");
             // 定义从后台传过来的坐标
             let showPointArr = [
                 {x: 100, y: 100},

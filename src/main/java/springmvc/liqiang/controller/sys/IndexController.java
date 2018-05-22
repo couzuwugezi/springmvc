@@ -42,7 +42,7 @@ public class IndexController {
      *
      * @return 返回页面
      */
-    @RequestMapping(value = "/test/drawPoint", method = RequestMethod.POST)
+    @RequestMapping(value = "/test/drawPoint", method = RequestMethod.GET)
     public String drawPoint() {
         return "html/test/drawPoint";
     }
