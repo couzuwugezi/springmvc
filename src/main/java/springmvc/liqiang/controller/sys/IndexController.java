@@ -93,7 +93,7 @@ public class IndexController {
      * 验证登录
      */
     @RequestMapping(value = "/checkInfo", method = RequestMethod.POST)
-    public void login(HttpServletRequest request, HttpServletResponse response) {
+    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setCharacterEncoding("utf-8");
         String loginname = request.getParameter("loginname");
         JSONObject obj = new JSONObject();
