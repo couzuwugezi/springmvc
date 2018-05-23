@@ -2,6 +2,7 @@ package springmvc.liqiang.controller.shiro;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -12,7 +13,9 @@ import springmvc.liqiang.entity.SysUserInfoExample;
 import springmvc.liqiang.entity.SysUserInfoPO;
 import springmvc.liqiang.utils.CommonUtil;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author liqiang
@@ -26,7 +29,19 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+         System.out.println("进入授权方法");
+        // 1从principalCollection中获取登录用户信息
+        Object principal = principalCollection.getPrimaryPrincipal();
+        //2. 利用登录的用户的信息来用户当前用户的角色或权限(可能需要查询数据库)
+        Set<String> roles = new HashSet<>();
+        roles.add("user");
+        if("Bruce".equals(principal)){
+            roles.add("test");
+        }
+
+        //3. 创建 SimpleAuthorizationInfo, 并设置其 reles 属性.
+        //4. 返回 SimpleAuthorizationInfo 对象.
+        return new SimpleAuthorizationInfo(roles);
     }
 
     @Override

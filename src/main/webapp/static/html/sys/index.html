@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <script th:src="@{/static/js/basic/vue.js}"></script>
@@ -8,8 +9,16 @@
 </head>
 <body>
 登陆成功!
-<a href="./test/bruce.html">Bruce</a>
-<a href="./test/liqiang.html">liqiang</a>
+<shiro:user>
+    欢迎
+    <shiro:principal/>
+</shiro:user>
+<shiro:hasRole name="test">
+    <a href="./admin">drawPoint</a>
+</shiro:hasRole>
+<shiro:hasRole name="user">
+    <a href="./liqiang">liqiang</a>
+</shiro:hasRole>
 <a href="./logout">logout</a>
 </body>
 </html>

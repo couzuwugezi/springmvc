@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>Spring-Shiro</title>
@@ -23,26 +24,30 @@
 </head>
 <body>
 <div id="loginDiv" style="height: 100%; width: 100%">
-    <div id="inLoginDiv">
-        <el-form :model="form" id="loginForm" status-icon :rules="rules" ref="loginForm" label-width="200px"
-                 class="demo-ruleForm">
-            <el-form-item label="账号" prop="loginname">
-                <el-input type="loginname" @focus="clearAccMsg()" v-model="form.loginname"
-                          auto-complete="off"></el-input>
-                <span style="margin-top: -10px;color: red;position: fixed;" v-text="showMsgAcc"
-                      v-if="showMsgAcc.length > 0"></span>
-            </el-form-item>
-            <el-form-item label="密码" prop="password">
-                <el-input type="password" @focus="clearPwdMsg()" v-model="form.password" auto-complete="off"></el-input>
-                <span style="margin-top: -10px;color: red;position: fixed;" v-text="showMsgPwd"
-                      v-if="showMsgPwd.length > 0"></span>
-            </el-form-item>
-            <div style="display: inline-flex;float: right;">
-                <el-button type="primary" @click="submitForm('loginForm')" style="width:50%">登录</el-button>
-                <el-button type="primary" @click="openForm()" style="width:50%">注册</el-button>
-            </div>
-        </el-form>
-    </div>
+
+    <shiro:guest>
+        <div id="inLoginDiv">
+            <el-form :model="form" id="loginForm" status-icon :rules="rules" ref="loginForm" label-width="200px"
+                     class="demo-ruleForm">
+                <el-form-item label="账号" prop="loginname">
+                    <el-input type="loginname" @focus="clearAccMsg()" v-model="form.loginname"
+                              auto-complete="off"></el-input>
+                    <span style="margin-top: -10px;color: red;position: fixed;" v-text="showMsgAcc"
+                          v-if="showMsgAcc.length > 0"></span>
+                </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input type="password" @focus="clearPwdMsg()" v-model="form.password"
+                              auto-complete="off"></el-input>
+                    <span style="margin-top: -10px;color: red;position: fixed;" v-text="showMsgPwd"
+                          v-if="showMsgPwd.length > 0"></span>
+                </el-form-item>
+                <div style="display: inline-flex;float: right;">
+                    <el-button type="primary" @click="submitForm('loginForm')" style="width:50%">登录</el-button>
+                    <el-button type="primary" @click="openForm()" style="width:50%">注册</el-button>
+                </div>
+            </el-form>
+        </div>
+    </shiro:guest>
 </div>
 <el-dialog v-cloak title="注册" :close-on-click-modal="false" :show-close="false"
            :close-on-press-escape="false" id="dialog" :visible.sync="show" style="width: 50%;margin-left: 25%;">

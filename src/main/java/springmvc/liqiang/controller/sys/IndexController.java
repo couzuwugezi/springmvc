@@ -29,7 +29,7 @@ import java.io.IOException;
  * 描述 首页
  */
 @Controller
-public class IndexController {
+public class IndexController extends BaseController {
 
     private Logger log = LoggerFactory.getLogger(IndexController.class);
 
@@ -42,7 +42,7 @@ public class IndexController {
      *
      * @return 返回页面
      */
-    @RequestMapping(value = "/test/drawPoint", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin")
     public String drawPoint() {
         return "html/test/drawPoint";
     }
@@ -52,7 +52,7 @@ public class IndexController {
      *
      * @return 返回页面
      */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login")
     public String toLogin() {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
@@ -66,7 +66,7 @@ public class IndexController {
      *
      * @return 返回主页
      */
-    @RequestMapping(value = {"/index", "/", ""}, method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = {"/index", "/", ""})
     public String index() {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
@@ -80,12 +80,8 @@ public class IndexController {
      *
      * @return 返回页面
      */
-    @RequestMapping(value = "/unauthorized", method = RequestMethod.POST)
+    @RequestMapping(value = "/unauthorized")
     public String unauthorized() {
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            return "html/sys/index";
-        }
         return "html/sys/405";
     }
 
@@ -93,7 +89,7 @@ public class IndexController {
      * 验证登录
      */
     @RequestMapping(value = "/checkInfo", method = RequestMethod.POST)
-    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("utf-8");
         String loginname = request.getParameter("loginname");
         JSONObject obj = new JSONObject();
@@ -144,5 +140,10 @@ public class IndexController {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return "redirect:/login";
+    }
+
+    @RequestMapping(value = "/liqiang")
+    public String liqiang() {
+        return "html/test/liqiang";
     }
 }

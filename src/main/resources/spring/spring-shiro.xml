@@ -5,15 +5,15 @@
     <!-- 1. 配置 SecurityManager -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!--<property name="cacheManager" ref="cacheManager" />-->
-        <property name="authenticator" ref="authenticator" />
-        <property name="realm" ref="jdbcRealm" />
+        <property name="authenticator" ref="authenticator"/>
+        <property name="realm" ref="jdbcRealm"/>
         <!--<property name="rememberMeManager.cookie.maxAge" value="10" />-->
     </bean>
 
     <bean id="authenticator"
           class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
         <property name="authenticationStrategy">
-            <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy" />
+            <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>
         </property>
     </bean>
 
@@ -33,8 +33,8 @@
         <property name="credentialsMatcher">
             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
                 <!-- 使用md5加密1024次 -->
-                <property name="hashAlgorithmName" value="MD5" />
-                <property name="hashIterations" value="1024" />
+                <property name="hashAlgorithmName" value="MD5"/>
+                <property name="hashIterations" value="1024"/>
             </bean>
         </property>
     </bean>
@@ -42,14 +42,14 @@
     <!--
         4. 配置 LifecycleBeanPostProcessor. 可以自定的来调用配置在 Spring IOC 容器中 shiro bean 的生命周期方法.
       -->
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
     <!--
     5. 启用 IOC 容器中使用 shiro 的注解. 但必须在配置了 LifecycleBeanPostProcessor 之后才可以使用.
     -->
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-          depends-on="lifecycleBeanPostProcessor" />
+          depends-on="lifecycleBeanPostProcessor"/>
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager" />
+        <property name="securityManager" ref="securityManager"/>
     </bean>
     <!--
     6. 配置 ShiroFilter.
@@ -57,10 +57,10 @@
                       若不一致, 则会抛出: NoSuchBeanDefinitionException. 因为 Shiro 会来 IOC 容器中查找和 <filter-name> 名字对应的 filter bean.
     -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="securityManager" ref="securityManager" />
-        <property name="loginUrl" value="/login" />
-        <property name="successUrl" value="/index" />
-        <property name="unauthorizedUrl" value="/unauthorized" />
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/index"/>
+        <property name="unauthorizedUrl" value="/unauthorized"/>
 
         <!--<property name="filterChainDefinitionMap" ref="filterChainDefinitionMap" />-->
 
@@ -84,6 +84,9 @@
                 /static/**/*.woff = anon
                 /static/**/*.map = anon
                 /static/**/*.css = anon
+
+                /liqiang = roles[user]
+                /admin = roles[test]
                 /** = authc
             </value>
         </property>
