@@ -108,9 +108,9 @@ $(document).ready(function () {
                         {min: 1, max: 11, message: '长度在 1 到 11 个字符', trigger: 'blur'},
                         {
                             validator: function (rule, value, callback) {
-                                let telRegex = /^([0-9]|[\-])*$/;
+                                let telRegex = /^([0-9])*$/;
                                 if (!telRegex.test(value)) {
-                                    callback(new Error('只能输入数字和-！'))
+                                    callback(new Error('只能输入数字！'))
                                 } else {
                                     callback();
                                 }

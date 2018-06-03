@@ -4,10 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!-- 1. 配置 SecurityManager -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <!--<property name="cacheManager" ref="cacheManager" />-->
         <property name="authenticator" ref="authenticator"/>
         <property name="realm" ref="jdbcRealm"/>
-        <!--<property name="rememberMeManager.cookie.maxAge" value="10" />-->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+        <!--<property name="sessionManager" ref="sessionManager"/>-->
     </bean>
 
     <bean id="authenticator"
@@ -17,13 +17,19 @@
         </property>
     </bean>
 
-    <!--
-        2. 配置 CacheManager. 缓存管理器
-        2.1 需要加入 ehcache 的 jar 包及配置文件.
-    -->
-    <!--<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
-    <!--<property name="cacheManagerConfigFile" value="classpath:spring/ehcache.xml" />-->
-    <!--</bean>-->
+    <!-- 记住密码Cookie -->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <!-- 7天,采用spring el计算方便修改,-1代表浏览器关闭式清除！ -->
+        <property name="maxAge" value="#{7*24*60*60}"/><!-- #{7*24*60*60} -->
+    </bean>
+
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="rememberMeCookie"/>
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('henghenghahi==')}"/>
+    </bean>
+
 
     <!--
     3. 配置 Realm
@@ -61,45 +67,44 @@
         <property name="loginUrl" value="/login"/>
         <property name="successUrl" value="/index"/>
         <property name="unauthorizedUrl" value="/unauthorized"/>
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"/>
+    </bean>
 
-        <!--<property name="filterChainDefinitionMap" ref="filterChainDefinitionMap" />-->
+    <bean id="sessionValidationScheduler"
+          class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+        <property name="interval" value="10000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
 
-        <!--
-        	配置哪些页面需要受保护.
-        	以及访问这些页面需要的权限.
-        	1). anon 可以被匿名访问
-        	2). authc 必须认证(即登录)后才可能访问的页面.
-        	3). logout 登出.
-        	4). roles 角色过滤器
-        -->
+    <!-- 配置一个 bean, 该 bean 实际上是一个 Map. 通过实例工厂方法的方式 -->
+    <bean id="filterChainDefinitionMap"
+          factory-bean="filterChainDefinitionMapBuilder" factory-method="buildFilterChainDefinitionMap"/>
+    <bean id="filterChainDefinitionMapBuilder"
+          class="springmvc.liqiang.controller.shiro.FilterChainDefinitionMapBuilder"/>
 
-        <property name="filterChainDefinitions">
-            <value>
-                /login = anon
-                /logout = logout
-                /checkInfo = anon
-                /register = anon
-                /static/**/*.js = anon
-                /static/**/*.ttf = anon
-                /static/**/*.woff = anon
-                /static/**/*.map = anon
-                /static/**/*.css = anon
+    <!-- sessionid 生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
 
-                /liqiang = roles[user]
-                /admin = roles[test]
-                /** = authc
-            </value>
-        </property>
+    <!-- session dao -->
+    <bean id="sessionDao" class="springmvc.liqiang.controller.shiro.ShiroSessionDAO">
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+    </bean>
+
+    <bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
+        <!-- 定义的是全局的session会话超时时间，此操作会覆盖web.xml文件中的超时时间配置 -->
+        <property name="globalSessionTimeout" value="1800000"/>
+        <!-- 删除所有无效的Session对象，此时的session被保存在了内存里面 -->
+        <!--<property name="deleteInvalidSessions" value="true"/>-->
+        <!-- 定义要使用的无效的Session定时调度器 -->
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <!-- 需要让此session可以使用该定时调度器进行检测 -->
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <!-- 定义Session可以进行序列化的工具类 -->
+        <property name="sessionDAO" ref="sessionDao"/>
+        <property name="sessionListeners" ref="sessionListener"/>
 
     </bean>
 
-    <!-- 配置一个 bean, 该 bean 实际上是一个 Map. 通过实例工厂方法的方式
-    <bean id="filterChainDefinitionMap"
-          factory-bean="filterChainDefinitionMapBuilder" factory-method="buildFilterChainDefinitionMap" />
-
-    <bean id="filterChainDefinitionMapBuilder"
-          class="com.atguigu.shiro.factory.FilterChainDefinitionMapBuilder" />
-
-    <bean id="shiroService"
-          class="com.atguigu.shiro.services.ShiroService" /> -->
+    <bean id="sessionListener" class="springmvc.liqiang.controller.shiro.ShiroSessionListener"/>
 </beans>

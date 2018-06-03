@@ -66,7 +66,7 @@ public class IndexController extends BaseController {
      *
      * @return 返回主页
      */
-    @RequestMapping(value = {"/index", "/", ""})
+    @RequestMapping(value = {"/index", "/", ""},method = RequestMethod.GET)
     public String index() {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
@@ -98,7 +98,7 @@ public class IndexController extends BaseController {
             Subject subject = SecurityUtils.getSubject();
             if (!subject.isAuthenticated()) {
                 UsernamePasswordToken token = new UsernamePasswordToken(loginname, password);
-                token.setRememberMe(true);
+                token.setRememberMe(false);
                 subject.login(token);
             }
             obj.put("code", "1");
