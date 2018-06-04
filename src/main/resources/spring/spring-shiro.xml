@@ -7,7 +7,7 @@
         <property name="authenticator" ref="authenticator"/>
         <property name="realm" ref="jdbcRealm"/>
         <property name="rememberMeManager" ref="rememberMeManager"/>
-        <!--<property name="sessionManager" ref="sessionManager"/>-->
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
 
     <bean id="authenticator"
