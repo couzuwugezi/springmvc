@@ -39,7 +39,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
-    public String runtimeExceptionHandler(RuntimeException runtimeException) {
+    public String runtimeExceptionHandler() {
 
         return ReturnFormat.retParam(1000, null);
     }
@@ -152,7 +152,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({ConversionNotSupportedException.class, HttpMessageNotWritableException.class})
     @ResponseBody
-    public String server500(RuntimeException runtimeException) {
+    public String server500() {
         System.out.println("500...");
         return ReturnFormat.retParam(406, null);
     }
