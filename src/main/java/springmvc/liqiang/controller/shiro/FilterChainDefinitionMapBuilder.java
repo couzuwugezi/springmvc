@@ -18,10 +18,10 @@ public class FilterChainDefinitionMapBuilder {
     public LinkedHashMap<String, String> buildFilterChainDefinitionMap() {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
+        map.put("/register", "anon");
         map.put("/login", "anon");
         map.put("/logout", "logout");
         map.put("/checkInfo", "anon");
-        map.put("/register", "anon");
         map.put("/static/**/*.js", "anon");
         map.put("/static/**/*.ttf", "anon");
         map.put("/static/**/*.woff", "anon");
