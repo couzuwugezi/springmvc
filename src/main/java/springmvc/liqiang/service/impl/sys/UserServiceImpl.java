@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
      * @return 返回保存结果
      */
     @Override
-    public OperaResult register(SysUserInfoPO record) throws Exception {
+    public OperaResult register(SysUserInfoPO record) {
         OperaResult result = new OperaResult();
         int insertRes;
         record.setIsStart("1");
@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
         record.setLoginPassword(CommonUtil.toString(password));
         insertRes = sysUserInfoMapper.insert(record);
+        int a = 1/0;
         if (insertRes == 1) {
             result.setMsg("操作成功!");
             result.setCode("1");
