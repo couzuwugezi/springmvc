@@ -19,7 +19,7 @@ public class LogError {
 
     @AfterThrowing(pointcut = "print()", throwing = "e")
     public void handleThrowing(JoinPoint joinPoint, Exception e) {
-        //controller类抛出的异常在这边捕获
+        //类抛出的异常在这边捕获
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();
         Object[] args = joinPoint.getArgs();
