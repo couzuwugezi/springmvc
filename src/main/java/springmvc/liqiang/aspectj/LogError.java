@@ -28,7 +28,7 @@ public class LogError {
         System.out.println("异常所在类：" + className);
         System.out.println("异常所在方法：" + methodName);
         for (Object arg : args) {
-            System.out.println("异常中的参数：" + arg.toString());
+            System.out.println("异常中的参数：" + arg);
         }
 
     }
