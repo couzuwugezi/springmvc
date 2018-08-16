@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import springmvc.liqiang.dao.mapper.SysUserInfoMapper;
 import springmvc.liqiang.dao.model.OperaResult;
 import springmvc.liqiang.entity.SysUserInfoPO;
@@ -37,34 +36,28 @@ public class UserServiceImpl implements UserService {
      * @return 返回保存结果
      */
     @Override
-    public OperaResult register(SysUserInfoPO record) {
+    public OperaResult register(SysUserInfoPO record) throws Exception {
         OperaResult result = new OperaResult();
         int insertRes;
-        try {
-            record.setIsStart("1");
-            record.setUserStatus("1");
-            record.setCreatTime(new Date());
+        record.setIsStart("1");
+        record.setUserStatus("1");
+        record.setCreatTime(new Date());
 
-            // shiro 密码加密
-            String hashAlgorithmName = "MD5";
-            int hashIterations = 1024;
-            ByteSource credentialsSalt = ByteSource.Util.bytes(record.getLoginName());
-            Object password = new SimpleHash(hashAlgorithmName, record.getLoginPassword(), credentialsSalt, hashIterations);
+        // shiro 密码加密
+        String hashAlgorithmName = "MD5";
+        int hashIterations = 1024;
+        ByteSource credentialsSalt = ByteSource.Util.bytes(record.getLoginName());
+        Object password = new SimpleHash(hashAlgorithmName, record.getLoginPassword(), credentialsSalt, hashIterations);
 
-            record.setLoginPassword(CommonUtil.toString(password));
-            insertRes = sysUserInfoMapper.insert(record);
-            if (insertRes == 1) {
-                result.setMsg("操作成功!");
-                result.setCode("1");
-            } else {
-                result.setMsg("操作失败!");
-                result.setCode("0");
-            }
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            logger.error("method UserServiceImpl.register has an exception: ", e);
-            result.setCode("-1");
-            result.setMsg("系统异常请联系管理员");
+        record.setLoginPassword(CommonUtil.toString(password));
+        insertRes = sysUserInfoMapper.insert(record);
+        int a = 1/0;
+        if (insertRes == 1) {
+            result.setMsg("操作成功!");
+            result.setCode("1");
+        } else {
+            result.setMsg("操作失败!");
+            result.setCode("0");
         }
         return result;
     }

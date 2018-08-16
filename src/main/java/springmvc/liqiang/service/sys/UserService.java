@@ -15,5 +15,5 @@ public interface UserService {
      * @param record 注册保存的数据
      * @return 返回保存结果
      */
-    OperaResult register(SysUserInfoPO record);
+    OperaResult register(SysUserInfoPO record) throws Exception;
 }

@@ -66,7 +66,7 @@ public class IndexController extends BaseController {
      *
      * @return 返回主页
      */
-    @RequestMapping(value = {"/index", "/", ""},method = RequestMethod.GET)
+    @RequestMapping(value = {"/index", "/", ""}, method = RequestMethod.GET)
     public String index() {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
@@ -130,7 +130,7 @@ public class IndexController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public OperaResult register(@RequestBody SysUserInfoPO record) {
+    public OperaResult register(@RequestBody SysUserInfoPO record) throws Exception {
         return userService.register(record);
     }
 
