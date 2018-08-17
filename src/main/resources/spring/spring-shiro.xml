@@ -72,7 +72,7 @@
 
     <bean id="sessionValidationScheduler"
           class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
-        <property name="interval" value="10000"/>
+        <property name="interval" value="1800000"/>
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
 
